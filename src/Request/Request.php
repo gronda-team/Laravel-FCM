@@ -2,6 +2,7 @@
 
 namespace LaravelFCM\Request;
 
+use LaravelFCM\Message\PayloadFcmOptions;
 use LaravelFCM\Message\Topics;
 use LaravelFCM\Message\Options;
 use LaravelFCM\Message\PayloadData;
@@ -48,6 +49,13 @@ class Request extends BaseRequest
     protected $topic;
 
     /**
+     * @internal
+     *
+     * @var PayloadFcmOptions
+     */
+    protected $fcmOptions;
+
+    /**
      * Request constructor.
      *
      * @param                     $to
@@ -56,7 +64,7 @@ class Request extends BaseRequest
      * @param PayloadData         $data
      * @param Topics|null         $topic
      */
-    public function __construct($to, Options $options = null, PayloadNotification $notification = null, PayloadData $data = null, Topics $topic = null)
+    public function __construct($to, Options $options = null, PayloadNotification $notification = null, PayloadData $data = null, Topics $topic = null, PayloadFcmOptions $fcmOptions = null)
     {
         parent::__construct();
 
@@ -65,6 +73,7 @@ class Request extends BaseRequest
         $this->notification = $notification;
         $this->data = $data;
         $this->topic = $topic;
+        $this->fcmOptions = $fcmOptions;
     }
 
     /**
@@ -79,6 +88,7 @@ class Request extends BaseRequest
             'registration_ids' => $this->getRegistrationIds(),
             'notification' => $this->getNotification(),
             'data' => $this->getData(),
+            'fcm_options' => $this->getFcmOptions(),
         ];
 
         $message = array_merge($message, $this->getOptions());
@@ -147,5 +157,15 @@ class Request extends BaseRequest
     protected function getData()
     {
         return $this->data ? $this->data->toArray() : null;
+    }
+
+    /**
+     * get fcmOptions transformed.
+     *
+     * @return array|null
+     */
+    protected function getFcmOptions()
+    {
+        return $this->fcmOptions ? $this->fcmOptions->toArray() : null;
     }
 }
