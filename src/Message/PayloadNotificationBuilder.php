@@ -220,6 +220,21 @@ class PayloadNotificationBuilder
     }
 
     /**
+     * Indicates the image that can be displayed in the notification
+     * Supports an url or internal image.
+     *
+     * @param string $image
+     *
+     * @return PayloadNotificationBuilder current instance of the builder
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
      * Supported Android.
      *
      * Indicates color of the icon, expressed in #rrggbb format
@@ -373,6 +388,16 @@ class PayloadNotificationBuilder
     public function getTag()
     {
         return $this->tag;
+    }
+
+    /**
+     * Get image.
+     *
+     * @return null|string
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 
     /**
